@@ -1,4 +1,7 @@
+using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace Gestion_des_produits.Pages;
 

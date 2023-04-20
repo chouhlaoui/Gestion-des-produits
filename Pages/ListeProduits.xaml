@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gestion_des_produits.Pages.ListeProduits">
+    
+    <StackLayout Padding="5,10,5,20">
+        <StackLayout Orientation="Horizontal" Padding="5,10,5,5"  BackgroundColor="CornflowerBlue" HeightRequest="45" MinimumHeightRequest="45" MaximumHeightRequest="45">
+            <Label TextColor="FloralWhite" Text="Code" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" />
+            <Label TextColor="FloralWhite" Text="Nom du produit" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Delai" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Prix hors taxe" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Quantité" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+        <ListView HorizontalOptions="CenterAndExpand" ItemsSource="{Binding MyItems}" RowHeight="40" SeparatorVisibility="Default" SeparatorColor="Gray" >
+
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <ViewCell >
+                        <StackLayout Orientation="Horizontal"  >
+                            <Label Text="{Binding Code}"       HorizontalOptions="CenterAndExpand" VerticalOptions="Center"                            />
+                            <Label Text="{Binding NomProduit}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Text="{Binding Delai}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Text="{Binding PrixHT}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Text="{Binding Quantite}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+
+    </StackLayout>
+</ContentPage>
