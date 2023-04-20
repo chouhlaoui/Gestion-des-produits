@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gestion_des_produits.Pages.CommandPage"
+             Title="CommandPage">
+
+    <Grid >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Padding="30,0,30,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <SearchBar x:Name="searchbar" Placeholder="Effectuer une recherche avec le nom du produit" TextChanged="SearchBarTextChanged" Grid.Column="0"/>
+            <SearchBar x:Name="searchbar2" Placeholder="Effectuer une recherche avec le nom du produit" TextChanged="SearchBarTextChanged" Grid.Column="1"/>
+        </Grid>
+
+        <StackLayout Padding="0,10,5,10" Grid.Row="1" Orientation="Horizontal" BackgroundColor="CornflowerBlue" HeightRequest="45" MinimumHeightRequest="45" MaximumHeightRequest="45">
+            <Label TextColor="FloralWhite" Text="ID de la Commande" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Total à payer" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Date de la commande" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Liste des Produits" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+
+        </StackLayout>
+
+        <ListView x:Name="cmndliste" HorizontalOptions="CenterAndExpand" ItemsSource="{Binding ListeCommand}" RowHeight="40" SeparatorVisibility="Default" SeparatorColor="Gray" Grid.Row="2">
+
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <ViewCell x:Name="cell" >
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                            <Label x:Name="id" Text="{Binding IDCommand}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label x:Name="total" Text="{Binding Total}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
+                            <Label x:Name="datecommand" Text="{Binding Date}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Button x:Name="show" Clicked="OnShowButtonClicked" CommandParameter="{Binding .}" Text="Afficher liste des produits" CornerRadius="10" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HeightRequest="35" MaximumHeightRequest="35" MinimumHeightRequest="35" BackgroundColor="CornflowerBlue"/>
+
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>

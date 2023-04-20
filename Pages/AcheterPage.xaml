@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gestion_des_produits.Pages.AcheterPage">
+
+    <Grid >
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Padding="30,0,30,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <SearchBar x:Name="searchbar" Placeholder="Effectuer une recherche avec le nom du produit" TextChanged="SearchBar_TextChanged" Grid.Column="0"/>
+            <Button BackgroundColor="CornflowerBlue" TextColor="FloralWhite" Text="Acheter" Grid.Column="2" Clicked="Button_Clicked" />
+        </Grid>
+
+        <StackLayout Padding="0,10,5,10" Grid.Row="1" Orientation="Horizontal" BackgroundColor="CornflowerBlue" HeightRequest="45" MinimumHeightRequest="45" MaximumHeightRequest="45">
+            <Label TextColor="FloralWhite" Text="Nom du produit" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Prix hors taxe" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Quantité disponible" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Ajouter au panier" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+        <ListView x:Name="searchResults" HorizontalOptions="CenterAndExpand" ItemsSource="{Binding ListeVente}" RowHeight="40" SeparatorVisibility="Default" SeparatorColor="Gray" Grid.Row="2">
+
+            <ListView.ItemTemplate >
+                <DataTemplate>
+                    <ViewCell x:Name="cell" >
+                        <StackLayout Orientation="Horizontal"  >
+                            <Label x:Name="nom" Text="{Binding NomProduit}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label x:Name="pri" Text="{Binding PrixHT}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label x:Name="qt" Text="{Binding Quantite}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <CheckBox x:Name="check" IsChecked="{Binding Check}" HorizontalOptions="CenterAndExpand"></CheckBox>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+
+
+</ContentPage>
