@@ -38,11 +38,18 @@ namespace Gestion_des_produits
             }
             catch (MySqlException ex)
             {
-                // Gérer l'exception ici
                 Console.WriteLine("Erreur lors de l'exécution de la requête : " + ex.Message);
                 return -1;
             }
 
         }
+
+        
+        public void Finish()
+        {
+            connection.Close();
+        }
+
+
     }
 }

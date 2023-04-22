@@ -30,9 +30,9 @@ public partial class CommandPage : ContentPage
     //Connexion à la base de données et lecture des données
     public void Afficher()
     {
-#pragma warning disable IDE0090 // Use 'new(...)'
+        #pragma warning disable IDE0090 // Use 'new(...)'
         ConnectionSQL connection = new ConnectionSQL();
-#pragma warning restore IDE0090 // Use 'new(...)'
+        #pragma warning restore IDE0090 // Use 'new(...)'
 
         try
         {
@@ -47,9 +47,8 @@ public partial class CommandPage : ContentPage
                     IDCommand = reader.GetString(0),
                     Total = reader.GetString(1),
                     ListeDesAchats = reader.GetTextReader(2).ReadToEnd(),
-                    Date = reader.GetString(3)
-                });
-                Debug.WriteLine(reader.GetTextReader(2).ReadToEnd());
+                    Date = reader.GetDateTime(3).ToString("dd/MM/yyyy")
+                }) ;
             }
             reader.Close();
         }
@@ -60,19 +59,32 @@ public partial class CommandPage : ContentPage
 
     }
 
-    private void SearchBarTextChanged(object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    private void RechID(object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
     {
-        /* string searchText = e.NewTextValue;
+        string searchText = e.NewTextValue;
 
          // Filter the list based on the search text
          if (string.IsNullOrEmpty(searchText))
          {
-             searchResults.ItemsSource = ListeVente;
+             cmndliste.ItemsSource = ListeCommand;
          }
          else
          {
-             searchResults.ItemsSource = ListeVente.Where(item => item.NomProduit.ToLower().Contains(searchText.ToLower()));
-         }*/
+             cmndliste.ItemsSource = ListeCommand.Where(item => item.IDCommand.ToLower().Contains(searchText.ToLower()));
+         }
+    }
+    private void RechDate(object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
+    {
+         string searchText = e.NewTextValue;
+
+         if (string.IsNullOrEmpty(searchText))
+         {
+             cmndliste.ItemsSource = ListeCommand;
+         }
+         else
+         {
+             cmndliste.ItemsSource = ListeCommand.Where(item => item.Date.ToLower().Contains(searchText.ToLower()));
+         }
     }
 
 
@@ -81,8 +93,10 @@ public partial class CommandPage : ContentPage
     {
         base.OnAppearing();
         ListeCommand.Clear();
-        searchbar.Text = "";
-        searchbar.Placeholder = "Effectuer une recherche avec le nom du produit";
+        rechercheID.Text = "";
+        rechercheID.Placeholder = "Effectuer une recherche avec l'ID de la commande";
+        rechercheDate.Text = "";
+        rechercheDate.Placeholder = "Effectuer une recherche avec la date de la commande";
         Afficher();
     }
 

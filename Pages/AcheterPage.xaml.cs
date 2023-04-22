@@ -1,21 +1,16 @@
 using MySql.Data.MySqlClient;
 using System.Collections;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Maui.Views;
+using System.Diagnostics;
+
 namespace Gestion_des_produits.Pages;
 
 
 public partial class AcheterPage : ContentPage
 {
-    readonly ConnectionSQL connection = new ConnectionSQL();
-    public class Ligne
-    {
-        public string NomProduit { get; set; }
-        public string PrixHT { get; set; }
-        public string Quantite { get; set; }
-        public bool Check { get; set; }
-
-
-    }
+     ConnectionSQL connection;
+    
 
     public ObservableCollection<Ligne> ListeVente { get; set; } = new ObservableCollection<Ligne>();
     public AcheterPage()
@@ -28,6 +23,7 @@ public partial class AcheterPage : ContentPage
     //Connexion à la base de données et lecture des données
     public void Afficher()
     {
+        connection = new ConnectionSQL();
         try
         {
             string query = "SELECT * FROM produit";
@@ -43,6 +39,7 @@ public partial class AcheterPage : ContentPage
                 });
             }
             reader.Close();
+            connection.Finish();
         }
         catch (MySqlException)
         {
@@ -67,7 +64,6 @@ public partial class AcheterPage : ContentPage
     }
 
 
-
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -79,22 +75,23 @@ public partial class AcheterPage : ContentPage
 
     private void Button_Clicked(object sender, EventArgs e)
     {
+
+        ObservableCollection<Ligne> ListeCommand = new ObservableCollection<Ligne>();  
+
         float total = 0;
-        string lesachats = "";
 
         foreach (Ligne item in searchResults.ItemsSource)
         {
             bool isChecked = item.Check;
             if (isChecked)
             {
+                ListeCommand.Add(item);
                 total += float.Parse(item.PrixHT);
-                lesachats = lesachats + item.NomProduit + "\n";
             }
         }
         if (total > 0)
         {
-            string query = "INSERT INTO commande(total,listeDesArticles,date) VALUES(" + total + ",\"" + lesachats + "\",\"" + DateTime.Today.ToString("yyyy-MM-dd") + "\");";
-            connection.ExecuteNonQuery(query);
+            this.ShowPopup(new PopupPage(ListeCommand));
         }
 
 

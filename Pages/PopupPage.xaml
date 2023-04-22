@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+               x:Class="Gestion_des_produits.Pages.PopupPage"
+               x:Name="MyPopup"
+               Color="White">
+
+    <StackLayout Orientation="Vertical">
+
+        <StackLayout Padding="0,10,5,10" Orientation="Horizontal" BackgroundColor="CornflowerBlue" HeightRequest="45" MinimumHeightRequest="45" MaximumHeightRequest="45">
+            <Label TextColor="FloralWhite" Text="Nom du produit" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Prix hors taxe" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Quantité" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+            <Label TextColor="FloralWhite" Text="Total" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+        </StackLayout>
+
+        <ListView x:Name="listpopup" ItemsSource="{Binding AfficheCommandListe}" HorizontalOptions="CenterAndExpand" RowHeight="40" SeparatorColor="Gray" SeparatorVisibility="Default" ItemSelected="ONItemSelected">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell x:Name="cellpopup">
+                        <StackLayout Orientation="Horizontal">
+                            <Label x:Name="nompopup" Text="{Binding NomProduit}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                            <Label x:Name="prixpopup" Text="{Binding PrixHT}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                            <Label x:Name="quantityLabel" Text="{Binding Quantite}" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+                            <Stepper Increment="1" Maximum="30" Minimum="1" ValueChanged="OnStepperValueChanged" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" BackgroundColor="AliceBlue"/>
+                            <Label x:Name="totalpopup" Text="{Binding Total}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Button Text="Annuler" Clicked="AnnulerButtonClicked" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Button Text="Confirmer" Clicked="ConfirmerButtonClicked" VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="tot" Text="Total :" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="SommeTotal" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"/>
+        </HorizontalStackLayout>
+        
+    </StackLayout>
+
+    
+
+</toolkit:Popup>

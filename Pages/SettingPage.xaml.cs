@@ -1,5 +1,7 @@
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
+using System.Diagnostics;
+
 namespace Gestion_des_produits.Pages;
 
 
@@ -126,6 +128,7 @@ public partial class SettingPage : ContentPage
                 }
                 else { query = ""; }
 
+                Debug.WriteLine(query);
                 if (connection.ExecuteNonQuery(query) > 0)
                 {
                     codemod.Text = "";

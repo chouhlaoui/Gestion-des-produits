@@ -13,13 +13,13 @@
 
         <Grid Grid.Row="0" Padding="30,0,30,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
 
-            <SearchBar x:Name="searchbar" Placeholder="Effectuer une recherche avec le nom du produit" TextChanged="SearchBarTextChanged" Grid.Column="0"/>
-            <SearchBar x:Name="searchbar2" Placeholder="Effectuer une recherche avec le nom du produit" TextChanged="SearchBarTextChanged" Grid.Column="1"/>
+            <SearchBar x:Name="rechercheID" Placeholder="Effectuer une recherche avec l'ID de la commande" TextChanged="RechID" Grid.Column="0"/>
+            <SearchBar x:Name="rechercheDate" Placeholder="Effectuer une recherche avec la date de la commande" TextChanged="RechDate" Grid.Column="2"/>
         </Grid>
 
         <StackLayout Padding="0,10,5,10" Grid.Row="1" Orientation="Horizontal" BackgroundColor="CornflowerBlue" HeightRequest="45" MinimumHeightRequest="45" MaximumHeightRequest="45">

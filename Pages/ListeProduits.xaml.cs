@@ -37,7 +37,7 @@ public partial class ListeProduits : ContentPage
                 {
                     Code = reader.GetString(0),
                     NomProduit = reader.GetString(1),
-                    Delai = reader.GetString(2).Remove(9),
+                    Delai = reader.GetDateTime(2).ToString("dd/MM/yyyy"),
                     PrixHT = reader.GetString(3),
                     Quantite = reader.GetString(4)
                 });
