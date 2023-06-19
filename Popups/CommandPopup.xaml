@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gestion_des_produits.Popups.CommandPopup"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" 
+               CanBeDismissedByTappingOutsideOfPopup="False"
+              Size="600,500"
+               Color="white">
+    <Frame BorderColor="Black" CornerRadius="10">
+        <Grid Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="1*"/>
+
+            </Grid.RowDefinitions>
+
+            <Label Text="Détails" FontAttributes="Bold" FontSize="Medium" Grid.Row="0" VerticalOptions="Center"/>
+            <Button Text="OK" VerticalOptions="Center" HorizontalOptions="End" Grid.Row="0" Clicked="Out" HeightRequest="30" WidthRequest="50" BackgroundColor="CornflowerBlue"/>
+
+
+            <ListView x:Name="cmdlist" Grid.Row="1" HorizontalOptions="CenterAndExpand" ItemsSource="{Binding commands}" RowHeight="40" SeparatorVisibility="Default" SeparatorColor="Gray">
+
+                <ListView.Header >
+                    <Grid BackgroundColor="CornflowerBlue" HeightRequest="40" VerticalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" TextColor="FloralWhite" Text="Nom du produit" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" />
+                        <Label Grid.Column="1" TextColor="FloralWhite" Text="Prix hors taxe" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
+                        <Label Grid.Column="2" TextColor="FloralWhite" Text="Quantité" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
+                        <Label Grid.Column="3" TextColor="FloralWhite" Text="Total" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
+
+                    </Grid>
+                </ListView.Header>
+
+                <ListView.ItemTemplate >
+                    <DataTemplate>
+                        <ViewCell >
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="{Binding Prod}"       HorizontalOptions="CenterAndExpand" VerticalOptions="Center"                            />
+                                <Label Grid.Column="1" Text="{Binding Unitaire}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="{Binding Qte}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                                <Label Grid.Column="3" Text="{Binding Tot}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label HorizontalOptions="Center" Text="{Binding total}" FontAttributes="Bold" Grid.Row="2"/>
+        </Grid>
+    </Frame>
+</toolkit:Popup>

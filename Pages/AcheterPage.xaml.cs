@@ -17,6 +17,8 @@ public partial class AcheterPage : ContentPage
     {
         InitializeComponent();
         BindingContext = this;
+        NavigationPage.SetHasNavigationBar(this, false);
+
         Afficher();
     }
 

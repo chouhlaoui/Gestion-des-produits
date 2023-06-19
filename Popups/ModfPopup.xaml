@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"          
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gestion_des_produits.Pages.ModfPopup"
+             Size="600,450"
+             CanBeDismissedByTappingOutsideOfPopup="False">
+    <Frame Grid.Row="2" BorderColor="Black"
+                CornerRadius="10"
+                Padding="10"
+                HasShadow="True">
+        <Grid Padding="20,10,10,-10" Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="1.5*" />
+                <RowDefinition Height="5*" />
+            </Grid.RowDefinitions>
+
+            <Label Text="Modifier un produit" FontSize="Subtitle" TextColor="DarkBlue"  Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
+
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Nom à modifier" FontSize="Micro" TextColor="DarkBlue" Grid.Column="0" HeightRequest="30"/>
+                <Entry x:Name="nommod" Grid.Column="1" Text="{Binding NomProduit}" HeightRequest="30"/>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <Label FontSize="Micro" TextColor="DarkBlue" Text="Prix Hors taxe à modifier" Grid.Column="0" HeightRequest="30"/>
+                <Entry  x:Name="prixmod" Grid.Column="1" Text="{Binding PrixHT}" HeightRequest="30"/>
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label FontSize="Micro" TextColor="DarkBlue" Text="Quantité à modifier" Grid.Column="0" HeightRequest="30"/>
+                <Entry x:Name="quantitemod" Grid.Column="1" Text="{Binding Quantite}" HeightRequest="30"/>
+            </Grid>
+
+ 
+
+
+            <Grid Grid.Row="5">
+
+            </Grid>
+            <Grid Grid.Row="6" HorizontalOptions="Center" ColumnSpacing="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button BackgroundColor="CornflowerBlue" TextColor="FloralWhite" Text="Confirmer" FontAutoScalingEnabled="True" Clicked="Confirmation_Modification" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                <Button BackgroundColor="CornflowerBlue" TextColor="FloralWhite" Text="Annuler" FontAutoScalingEnabled="True" Clicked="Annuler" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+            </Grid>
+
+              </Grid>
+
+    </Frame>
+</toolkit:Popup>

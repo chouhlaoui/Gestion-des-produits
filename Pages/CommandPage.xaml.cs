@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Views;
+using Gestion_des_produits.Popups;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
 using System.Collections.ObjectModel;
@@ -24,6 +26,8 @@ public partial class CommandPage : ContentPage
     {
         InitializeComponent();
         BindingContext = this;
+        NavigationPage.SetHasNavigationBar(this, false);
+
         Afficher();
     }
 
@@ -106,9 +110,11 @@ public partial class CommandPage : ContentPage
         LigneCommand selectedCommand = (LigneCommand)button.CommandParameter;
         if (selectedCommand != null)
         {
-            await DisplayAlert("Details", selectedCommand.ListeDesAchats, "OK");
+            await this.ShowPopupAsync(new CommandPopup(selectedCommand.ListeDesAchats));
+
         }
     }
+    
 
 
 }

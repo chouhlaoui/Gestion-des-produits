@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"          
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Gestion_des_produits.Pages.AjoutPopup"
+             Size="600,450"
+             CanBeDismissedByTappingOutsideOfPopup="False">
+    <Frame Grid.Row="0" BorderColor="Black"
+           CornerRadius="10"
+           Padding="30,15,20,0"
+           HasShadow="True" >
+
+        <Grid Grid.Column="0"  >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+
+            <Label Text="Ajouter des nouveaux produits" FontSize="Subtitle" TextColor="DarkBlue"  Grid.Row="0" HorizontalOptions="CenterAndExpand"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label Text="Nom du produit" FontSize="Micro" TextColor="DarkBlue" Grid.Column="0" HeightRequest="30"/>
+                <Entry x:Name="nomprod" Grid.Column="1" Placeholder="Produit" HeightRequest="30"/>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label FontSize="Micro" TextColor="DarkBlue" Text="Prix Hors taxe du produit" Grid.Column="0" HeightRequest="30"/>
+                <Entry x:Name="prixprod" Grid.Column="1" Placeholder="Prix" HeightRequest="30"/>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label FontSize="Micro" TextColor="DarkBlue" Text="Quantité du produit" Grid.Column="0" HeightRequest="30"/>
+                <Entry  x:Name="quantiteprod" Grid.Column="1" Placeholder="Quantité" HeightRequest="30"/>
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label FontSize="Micro" TextColor="DarkBlue" Text="Delai du produit" Grid.Column="0" HeightRequest="30"/>
+                <DatePicker x:Name="Delai" Grid.Column="1"  />
+            </Grid>
+
+            <Grid Grid.Row="5">
+
+            </Grid>
+
+            <Grid Grid.Row="6" HorizontalOptions="Center" ColumnSpacing="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button BackgroundColor="CornflowerBlue" TextColor="FloralWhite" Text="Confirmer" FontAutoScalingEnabled="True" Clicked="Confirmation_Ajout" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+                <Button BackgroundColor="CornflowerBlue" TextColor="FloralWhite" Text="Annuler" FontAutoScalingEnabled="True" Clicked="Annuler" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+            </Grid>
+        </Grid>
+
+    </Frame>
+</toolkit:Popup>

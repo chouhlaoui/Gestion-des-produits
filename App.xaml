@@ -13,26 +13,5 @@
         </ResourceDictionary>
     </Application.Resources>
 
-    <Application.MainPage>
-
-        <Shell>
-            <TabBar x:Name="AppTabs">
-                <Tab Title="Liste des articles" >
-                    <ShellContent ContentTemplate="{DataTemplate local2:ListeProduits}"/>
-                </Tab>
-                <Tab Title="Manipulation des articles">
-                    <ShellContent ContentTemplate="{DataTemplate local2:SettingPage}"/>
-                </Tab>
-                <Tab Title="Vente des articles">
-                    <ShellContent ContentTemplate="{DataTemplate local2:AcheterPage}"/>
-                </Tab>
-                <Tab Title="Liste des Commandes">
-                    <ShellContent ContentTemplate="{DataTemplate local2:CommandPage}"/>
-                </Tab>
-            </TabBar>
-
-        </Shell>
-
-    </Application.MainPage>
     
 </Application>

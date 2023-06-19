@@ -2,33 +2,67 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Gestion_des_produits.Pages.ListeProduits">
-    
-    <StackLayout Padding="5,10,5,20">
-        <StackLayout Orientation="Horizontal" Padding="5,10,5,5"  BackgroundColor="CornflowerBlue" HeightRequest="45" MinimumHeightRequest="45" MaximumHeightRequest="45">
-            <Label TextColor="FloralWhite" Text="Code" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" />
-            <Label TextColor="FloralWhite" Text="Nom du produit" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-            <Label TextColor="FloralWhite" Text="Delai" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-            <Label TextColor="FloralWhite" Text="Prix hors taxe" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-            <Label TextColor="FloralWhite" Text="Quantité" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-        </StackLayout>
 
-        <ListView HorizontalOptions="CenterAndExpand" ItemsSource="{Binding MyItems}" RowHeight="40" SeparatorVisibility="Default" SeparatorColor="Gray" >
+    <Grid Padding="5,10,5,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <ListView IsPullToRefreshEnabled="True" x:Name="prod" Grid.Row="0" HorizontalOptions="CenterAndExpand" ItemsSource="{Binding MyItems}" RowHeight="40" SeparatorVisibility="Default" SeparatorColor="Gray" ItemSelected="ONItemSelected" >
+
+            <ListView.Header >
+                <Grid BackgroundColor="CornflowerBlue" HeightRequest="40" VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" TextColor="FloralWhite" Text="Code" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="1" TextColor="FloralWhite" Text="Nom du produit" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
+                    <Label Grid.Column="2" TextColor="FloralWhite" Text="Delai" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" />
+                    <Label Grid.Column="3" TextColor="FloralWhite" Text="Prix hors taxe" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
+                    <Label Grid.Column="4" TextColor="FloralWhite" Text="Quantité" FontAttributes="Bold" HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center"/>
+                </Grid>
+            </ListView.Header>
 
             <ListView.ItemTemplate >
                 <DataTemplate>
                     <ViewCell >
-                        <StackLayout Orientation="Horizontal"  >
-                            <Label Text="{Binding Code}"       HorizontalOptions="CenterAndExpand" VerticalOptions="Center"                            />
-                            <Label Text="{Binding NomProduit}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                            <Label Text="{Binding Delai}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                            <Label Text="{Binding PrixHT}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                            <Label Text="{Binding Quantite}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                        </StackLayout>
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Text="{Binding Code}"       HorizontalOptions="CenterAndExpand" VerticalOptions="Center"                            />
+                            <Label Grid.Column="1" Text="{Binding NomProduit}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Grid.Column="2" Text="{Binding Delai}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Grid.Column="3" Text="{Binding PrixHT}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Grid.Column="4" Text="{Binding Quantite}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
+        <Grid Grid.Row="1" HorizontalOptions="Center" ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Text="Ajouter" WidthRequest="120" Clicked="Ajout" BackgroundColor="CornflowerBlue" TextColor="FloralWhite"/>
+            <Button Grid.Column="1" Text="Modifier" WidthRequest="120" Clicked="Modf" BackgroundColor="CornflowerBlue" TextColor="FloralWhite"/>
+            <Button Grid.Column="2" Text="Supprimer" WidthRequest="120" Clicked="Supp" BackgroundColor="CornflowerBlue" TextColor="FloralWhite"/>
+        </Grid>
 
-    </StackLayout>
+
+    </Grid>
 </ContentPage>
