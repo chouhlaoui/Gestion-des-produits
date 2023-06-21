@@ -31,6 +31,7 @@ public partial class ListeProduits : ContentPage
     public void Afficher()
     {
 
+
         try
         {
             string query = "SELECT * FROM produit";
