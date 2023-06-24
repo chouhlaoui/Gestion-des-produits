@@ -36,7 +36,7 @@
                 <DataTemplate>
                     <ViewCell x:Name="cell" >
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                            <Label x:Name="id" Text="{Binding IDCommand}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label x:Name="id" Text="{Binding ID}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
                             <Label x:Name="total" Text="{Binding Total}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center"/>
                             <Label x:Name="datecommand" Text="{Binding Date}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
                             <Button x:Name="show" Clicked="OnShowButtonClicked" CommandParameter="{Binding .}" Text="Afficher liste des produits" CornerRadius="10" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" HeightRequest="35" MaximumHeightRequest="35" MinimumHeightRequest="35" BackgroundColor="CornflowerBlue"/>

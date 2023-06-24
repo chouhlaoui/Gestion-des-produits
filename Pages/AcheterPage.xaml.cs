@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Views;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gestion_des_produits.Pages;
 
 
 public partial class AcheterPage : ContentPage
-{
-     ConnectionSQL connection;
-    
+{    
 
     public ObservableCollection<Ligne> ListeVente { get; set; } = new ObservableCollection<Ligne>();
     public AcheterPage()
@@ -25,29 +24,21 @@ public partial class AcheterPage : ContentPage
     //Connexion à la base de données et lecture des données
     public void Afficher()
     {
-        connection = new ConnectionSQL();
-        try
+        using(var db = new AppDB())
         {
-            string query = "SELECT * FROM produit";
-            MySqlDataReader reader = connection.ExecuteQuery(query);
+            var produits = db.Produits.ToList();
 
-            while (reader.Read())
+            foreach (var produit in produits)
             {
                 ListeVente.Add(new Ligne
                 {
-                    NomProduit = reader.GetString(1),
-                    PrixHT = reader.GetString(3),
-                    Quantite = reader.GetString(4)
+                    Code = produit.Code,
+                    NomProduit = produit.NomProduit,
+                    PrixHT = produit.Prix,
+                    Quantite = produit.Quantité
                 });
             }
-            reader.Close();
-            connection.Finish();
         }
-        catch (MySqlException)
-        {
-            Console.WriteLine("Error: Unable to connect to the database.");
-        }
-
     }
 
     private void SearchBar_TextChanged(object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
@@ -75,7 +66,7 @@ public partial class AcheterPage : ContentPage
         Afficher();
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
+    private async void Button_Clicked(object sender, EventArgs e)
     {
 
         ObservableCollection<Ligne> ListeCommand = new ObservableCollection<Ligne>();  
@@ -88,12 +79,24 @@ public partial class AcheterPage : ContentPage
             if (isChecked)
             {
                 ListeCommand.Add(item);
-                total += float.Parse(item.PrixHT);
+                total += item.PrixHT;
             }
         }
         if (total > 0)
         {
-            this.ShowPopup(new PopupPage(ListeCommand));
+            bool x = (bool) await this.ShowPopupAsync(new PopupPage(ListeCommand));
+            if (x)
+            {
+                ListeVente.Clear();
+                Afficher();
+            }
+            else
+            {
+                foreach(var item in ListeVente)
+                {
+                    item.Check = false;
+                }
+            }
         }
 
 

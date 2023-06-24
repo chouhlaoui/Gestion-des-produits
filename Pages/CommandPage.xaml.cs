@@ -11,17 +11,8 @@ namespace Gestion_des_produits.Pages;
 public partial class CommandPage : ContentPage
 {
 
-    public class LigneCommand
-    {
-        public string IDCommand { get; set; }
-        public string ListeDesAchats { get; set; }
-        public string Total { get; set; }
-        public string Date { get; set; }
 
-
-    }
-
-    public ObservableCollection<LigneCommand> ListeCommand { get; set; } = new ObservableCollection<LigneCommand>();
+    public ObservableCollection<Comd> ListeCommand { get; set; } = new ObservableCollection<Comd>();
     public CommandPage()
     {
         InitializeComponent();
@@ -34,31 +25,13 @@ public partial class CommandPage : ContentPage
     //Connexion à la base de données et lecture des données
     public void Afficher()
     {
-        #pragma warning disable IDE0090 // Use 'new(...)'
-        ConnectionSQL connection = new ConnectionSQL();
-        #pragma warning restore IDE0090 // Use 'new(...)'
-
-        try
+        using(var db = new AppDB())
         {
-            string query = "SELECT * FROM commande";
-            MySqlDataReader reader = connection.ExecuteQuery(query);
-
-            while (reader.Read())
+            var list = db.Comds.ToList();
+            foreach (var c in list)
             {
-                ListeCommand.Add(new LigneCommand
-                {
-
-                    IDCommand = reader.GetString(0),
-                    Total = reader.GetString(1),
-                    ListeDesAchats = reader.GetTextReader(2).ReadToEnd(),
-                    Date = reader.GetDateTime(3).ToString("dd/MM/yyyy")
-                }) ;
+                ListeCommand.Add(c);
             }
-            reader.Close();
-        }
-        catch (MySqlException)
-        {
-            Console.WriteLine("Error: Unable to connect to the database.");
         }
 
     }
@@ -74,7 +47,7 @@ public partial class CommandPage : ContentPage
          }
          else
          {
-             cmndliste.ItemsSource = ListeCommand.Where(item => item.IDCommand.ToLower().Contains(searchText.ToLower()));
+             cmndliste.ItemsSource = ListeCommand.Where(item => item.ID.ToString().Contains(searchText));
          }
     }
     private void RechDate(object sender, Microsoft.Maui.Controls.TextChangedEventArgs e)
@@ -107,10 +80,10 @@ public partial class CommandPage : ContentPage
     private async void OnShowButtonClicked(object sender, EventArgs e)
     {
         Button button = (Button)sender;
-        LigneCommand selectedCommand = (LigneCommand)button.CommandParameter;
+        Comd selectedCommand = (Comd)button.CommandParameter;
         if (selectedCommand != null)
         {
-            await this.ShowPopupAsync(new CommandPopup(selectedCommand.ListeDesAchats));
+            await this.ShowPopupAsync(new CommandPopup(selectedCommand.listeArticles));
 
         }
     }

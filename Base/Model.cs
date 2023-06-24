@@ -16,10 +16,11 @@ public class AppDB : DbContext
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
         DbPath = System.IO.Path.Join(path, "GestionProduit.db");
-    }
 
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
+        Database.EnsureCreated();
+        System.Diagnostics.Debug.WriteLine(DbPath);
+
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,9 +31,9 @@ public class AppDB : DbContext
             .Property(p => p.Code)
             .ValueGeneratedOnAdd();
         modelBuilder.Entity<Comd>()
-                    .HasKey(p => p.Id);
+                    .HasKey(p => p.ID);
         modelBuilder.Entity<Comd>()
-                    .Property(p => p.Id)
+                    .Property(p => p.ID)
                     .ValueGeneratedOnAdd();
     }
 
@@ -50,7 +51,7 @@ public class Produit
 
 public class Comd
 {
-    public int Id { get; set; }
+    public int ID { get; set; }
     public string listeArticles { get; set; }
     public string Date { get; set; }
     public float Total { get; set; }

@@ -10,12 +10,7 @@ namespace Gestion_des_produits.Pages;
 
 public partial class AjoutPopup : Popup
 {
-    string nom;
-    int qnt;
-    float prix;
-    DateTime date;
-    int code;
-    readonly ConnectionSQL connection = new();
+   
     public AjoutPopup()
 	{
 		InitializeComponent();
@@ -24,25 +19,28 @@ public partial class AjoutPopup : Popup
 
     private async void Confirmation_Ajout(object sender, EventArgs e)
     {
-        if (string.IsNullOrEmpty(nomprod.Text) || string.IsNullOrEmpty(quantiteprod.Text) || string.IsNullOrEmpty(prixprod.Text)) {
-
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            var toast = Toast.Make("Veuillez Remplir tous les champs !", ToastDuration.Short);
-
-            await toast.Show(cancellationTokenSource.Token);
+        if (string.IsNullOrEmpty(nomprod.Text) || string.IsNullOrEmpty(quantiteprod.Text) || string.IsNullOrEmpty(prixprod.Text)) 
+        {    
+            await Application.Current.MainPage.DisplayAlert("Alert", "Veuillez Remplir tous les champs !", "OK");
         }
         else
         {
             try
             {
-                nom = nomprod.Text;
-                qnt = int.Parse(quantiteprod.Text);
-                prix = float.Parse(prixprod.Text);
-                date = Delai.Date;
-                string DATE = date.ToString("yyyy-MM-dd");
-                string query = "insert into produit(NomProduit, Delai, PrixHT,Quantité) values(\"" + nom + "\",\"" + DATE + "\"," + prix + "," + qnt + ")";
-                connection.ExecuteNonQuery(query);
+                using (var dbContext = new AppDB())
+                {
+                    var newProduit = new Produit
+                    {
+                        NomProduit = nomprod.Text,
+                        Delai = Delai.Date.ToString("dd-MM-yyyy"),
+                        Prix = float.Parse(prixprod.Text),
+                        Quantité = int.Parse(quantiteprod.Text)
+                    };
+
+                    dbContext.Produits.Add(newProduit);
+                    dbContext.SaveChanges();
+                }
+                
                 prixprod.Text = "";
                 prixprod.Placeholder = "Prix";
                 quantiteprod.Text = "";
@@ -53,9 +51,7 @@ public partial class AjoutPopup : Popup
             }
             catch (FormatException)
             { await Application.Current.MainPage.DisplayAlert("Alert", "Veuillez verifier les champs !", "OK"); }
-            catch (MySqlException)
-            {
-            }
+            
         }
 
     }

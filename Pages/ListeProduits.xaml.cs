@@ -13,47 +13,23 @@ namespace Gestion_des_produits.Pages;
 
 public partial class ListeProduits : ContentPage
 {
-    public MyItem selected;
-    ConnectionSQL connection = new ConnectionSQL();
-    public ObservableCollection<MyItem> MyItems { get; set; } = new ObservableCollection<MyItem>();
+    public Produit selected;
+    public ObservableCollection<Produit> MyItems { get; set; } = new ObservableCollection<Produit>();
 
-    public class MyItem
-    {
-        public string Code { get; set; }
-        public string NomProduit { get; set; }
-        public string Delai { get; set; }
-        public string PrixHT { get; set; }
-        public string Quantite { get; set; }
-
-    }
 
     //Connexion à la base de données et lecture des données
     public void Afficher()
     {
-
-
-        try
+        using (var dbContext = new AppDB())
         {
-            string query = "SELECT * FROM produit";
-            MySqlDataReader reader = connection.ExecuteQuery(query);
+            var produits = dbContext.Produits.ToList();
 
-            while (reader.Read())
+            foreach (var produit in produits)
             {
-                MyItems.Add(new MyItem
-                {
-                    Code = reader.GetString(0),
-                    NomProduit = reader.GetString(1),
-                    Delai = reader.GetDateTime(2).ToString("dd/MM/yyyy"),
-                    PrixHT = reader.GetString(3),
-                    Quantite = reader.GetString(4)
-                });
+                MyItems.Add(produit);
             }
-            reader.Close();
         }
-        catch (MySqlException)
-        {
-            Console.WriteLine("Error: Unable to connect to the database.");
-        }
+
 
     }
 
@@ -79,7 +55,7 @@ public partial class ListeProduits : ContentPage
 
     private void ONItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-        if (e.SelectedItem is MyItem item)
+        if (e.SelectedItem is Produit item)
         {
             selected = item;
         }
@@ -92,22 +68,18 @@ public partial class ListeProduits : ContentPage
         Afficher();
     }
 
-    private async void Supp(object sender, EventArgs e)
+    private void Supp(object sender, EventArgs e)
     {
-
-        if (connection.ExecuteNonQuery("delete from produit where code = " + selected.Code) > 0)
+        using (var dbContext = new AppDB())
         {
-            await DisplayAlert("Information", "Suppression effectuée !", "OK");
-            MyItems.Clear();
-            Afficher();
-        }
-        else
-        {
-            await DisplayAlert("Alert", "Problème lors de la suppression !", "OK");
+            var produitToDelete = dbContext.Produits.FirstOrDefault(p => p.Code == selected.Code);
+            if (produitToDelete != null)
+            {
+                dbContext.Produits.Remove(produitToDelete);
+                dbContext.SaveChanges();
+            }
         }
         selected = null;
-
-
     }
 
     private async void Modf(object sender, EventArgs e)
@@ -116,14 +88,12 @@ public partial class ListeProduits : ContentPage
         if (selected != null)
         {
             test = (bool)await this.ShowPopupAsync(new ModfPopup(selected));
-            Debug.Write(selected.Quantite);
         }
         if (test)
         {
             MyItems.Clear();
             Afficher();
             selected = null;
-
         }
 
     }

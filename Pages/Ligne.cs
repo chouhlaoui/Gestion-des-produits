@@ -8,9 +8,10 @@ namespace Gestion_des_produits.Pages
 {
     public class Ligne
     {
+        public int Code { get; set; }
         public string NomProduit { get; set; }
-        public string PrixHT { get; set; }
-        public string Quantite { get; set; }
+        public float PrixHT { get; set; }
+        public int Quantite { get; set; }
         public bool Check { get; set; }
 
     }

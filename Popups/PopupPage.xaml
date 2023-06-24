@@ -4,7 +4,8 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                x:Class="Gestion_des_produits.Pages.PopupPage"
                x:Name="MyPopup"
-               Color="White">
+               Color="White"
+               CanBeDismissedByTappingOutsideOfPopup="False">
 
     <StackLayout Orientation="Vertical">
 

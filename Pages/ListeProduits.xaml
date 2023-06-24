@@ -44,8 +44,8 @@
                             <Label Grid.Column="0" Text="{Binding Code}"       HorizontalOptions="CenterAndExpand" VerticalOptions="Center"                            />
                             <Label Grid.Column="1" Text="{Binding NomProduit}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
                             <Label Grid.Column="2" Text="{Binding Delai}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                            <Label Grid.Column="3" Text="{Binding PrixHT}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                            <Label Grid.Column="4" Text="{Binding Quantite}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Grid.Column="3" Text="{Binding Prix}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                            <Label Grid.Column="4" Text="{Binding Quantité}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

@@ -7,78 +7,50 @@ namespace Gestion_des_produits.Pages;
 public partial class ModfPopup : Popup
 {
     int code;
-    readonly ConnectionSQL connection = new ConnectionSQL();
-
-    public ModfPopup(MyItem item)
+    public ModfPopup(Produit item)
 	{
 		InitializeComponent();
 		
 		BindingContext = item;
-
         try
         {
-            code = int.Parse(item.Code);
+            code = item.Code;
         }
         catch (Exception) {}
 
     }
     private void Confirmation_Modification(object sender, EventArgs e) {
-        string query;
-        
 
         try
+        {
+            using (var dbContext = new AppDB())
             {
+                Produit updateProd = dbContext.Produits.FirstOrDefault(p => p.Code == 1);
+                if (updateProd != null)
+                {
+                    if (nommod.Text != null)
+                    {
+                        updateProd.NomProduit = nommod.Text;
+                    }
+                    if (prixmod.Text != null)
+                    {
+                        updateProd.Prix = float.Parse(prixmod.Text);
+                    }
+                    if (quantitemod.Text != null)
+                    {
+                        updateProd.Quantité = int.Parse(quantitemod.Text);
+                    }
 
-                if (!(string.IsNullOrEmpty(nommod.Text)) && !(string.IsNullOrEmpty(prixmod.Text)) && !(string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET NomProduit=\"" + nommod.Text + "\", PrixHT=" + float.Parse(prixmod.Text) + ",Quantité = " + int.Parse(quantitemod.Text) + " where code=" + code;
+                    dbContext.SaveChanges();
                 }
-                else if (!(string.IsNullOrEmpty(nommod.Text)) && !(string.IsNullOrEmpty(prixmod.Text)) && (string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET NomProduit=\"" + nommod.Text + "\", PrixHT=" + float.Parse(prixmod.Text) + " where code=" + code;
-
-                }
-                else if (!(string.IsNullOrEmpty(nommod.Text)) && (string.IsNullOrEmpty(prixmod.Text)) && !(string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET NomProduit=\"" + nommod.Text + "\",Quantité = " + int.Parse(quantitemod.Text) + " where code=" + code;
-
-                }
-                else if ((string.IsNullOrEmpty(nommod.Text)) && !(string.IsNullOrEmpty(prixmod.Text)) && !(string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET PrixHT=" + float.Parse(prixmod.Text) + ",Quantité = " + int.Parse(quantitemod.Text) + " where code=" + code;
-                }
-                else if ((string.IsNullOrEmpty(nommod.Text)) && (string.IsNullOrEmpty(prixmod.Text)) && !(string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET Quantité = " + int.Parse(quantitemod.Text) + " where code=" + code;
-
-                }
-                else if (!(string.IsNullOrEmpty(nommod.Text)) && (string.IsNullOrEmpty(prixmod.Text)) && (string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET NomProduit=\"" + nommod.Text + "\" where code=" + code;
-
-                }
-                else if ((string.IsNullOrEmpty(nommod.Text)) && !(string.IsNullOrEmpty(prixmod.Text)) && (string.IsNullOrEmpty(quantitemod.Text)))
-                {
-                    query = "update produit SET PrixHT=" + float.Parse(prixmod.Text) + " where code=" + code;
-                }
-                else { query = ""; }
-
-                Debug.WriteLine(query);
-                if (connection.ExecuteNonQuery(query) > 0)
-                {
-                    Close(true);
-                }
-                else
-                {
-                    Close(false);
-                }
-        }
-            catch (Exception)
-            {
-
+                Close(true);
             }
-        
+        }
+        catch (Exception)
+        {
 
+        }
+        
     }
     private void Annuler(object sender, EventArgs e) => Close(false);
 }

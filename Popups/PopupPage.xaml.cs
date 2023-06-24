@@ -6,16 +6,18 @@ using Microsoft.Maui.Controls;
 using System.Diagnostics;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gestion_des_produits.Pages
 {
     public class AfficheCommand : INotifyPropertyChanged
     {
+        public int ID { get; set; }
         private int quantite;
-        private string total;
+        private float total;
 
         public string NomProduit { get; set; }
-        public string PrixHT { get; set; }
+        public float PrixHT { get; set; }
 
         public int Quantite
         {
@@ -25,14 +27,14 @@ namespace Gestion_des_produits.Pages
                 if (quantite != value)
                 {
                     quantite = value;
-                    Total = String.Format("{0:0.##}", (double.Parse(PrixHT) * quantite));
+                    Total = PrixHT * quantite;
                     OnPropertyChanged(nameof(Quantite));
                     OnPropertyChanged(nameof(Total));
                 }
             }
         }
 
-        public string Total
+        public float Total
         {
             get => total;
             set
@@ -71,66 +73,55 @@ namespace Gestion_des_produits.Pages
                 {
                     AfficheCommandListe.Add(new AfficheCommand
                     {
+                        ID = ligne.Code,
                         NomProduit = ligne.NomProduit,
                         PrixHT = ligne.PrixHT,
                         Quantite = 1,
                         Total = ligne.PrixHT
                     });
-                    sommeTotal += double.Parse(ligne.PrixHT);
+                    sommeTotal += ligne.PrixHT;
                 }
             }
 
             SommeTotal.Text = sommeTotal.ToString("0.##");
         }
 
-        private void AnnulerButtonClicked(object sender, EventArgs e)
-        {
-            Close(true);
-        } 
+        private void AnnulerButtonClicked(object sender, EventArgs e) => Close(false);
 
         private void ConfirmerButtonClicked(object sender, EventArgs e)
         {
-            ConnectionSQL connection = new ConnectionSQL();
-
             String command = "";
 
-            foreach (var item in AfficheCommandListe)
-            {           
-                try
-                {
-                    String query = "SELECT Quantité,code FROM produit where NomProduit=\"" + item.NomProduit + "\";";
-                    Debug.WriteLine(query);
-                    MySqlDataReader reader = connection.ExecuteQuery(query);
-                    while (reader.Read())
-                    {                      
-                        String query0 = "update produit SET Quantité = " + (reader.GetInt32(0) - item.Quantite) + " where code=" + reader.GetInt32(1) + ";";
-                        
-                        ConnectionSQL connection1 = new ConnectionSQL();
-                        if (connection1.ExecuteNonQuery(query0) >= 0)
+            using (var db = new AppDB())
+            {
+                 foreach (var item in AfficheCommandListe)
+                 {
+                        var prod = db.Produits.FirstOrDefault(p => p.Code == item.ID);
+                        if (prod != null)
                         {
-                            Debug.WriteLine("cbon");
+                            prod.Quantité = prod.Quantité - item.Quantite;
+                            db.SaveChanges();
                         }
-                        else
-                        {
-                            Debug.WriteLine("non");
-                        }
-                    }
-                    reader.Close();
-                     
-                    command += item.NomProduit + " | " + item.PrixHT + " | x" + item.Quantite + " | " + item.Total + "\n";
-                }
-                catch (MySqlException ex)
-                {
-                    Debug.WriteLine("MySQL error: " + ex.Message);
-                }
+
+                        command += item.NomProduit + " | " + item.PrixHT + " | x" + item.Quantite + " | " + item.Total + "\n";
+                 }
+
+
             }
 
-
             command += "Total de la commande : " + SommeTotal.Text ;
-            String query1 = "INSERT INTO commande(total,listeDesArticles,date) VALUES(" + float.Parse(SommeTotal.Text) + ",\"" + command + "\",\"" + DateTime.Today.ToString("yyyy-MM-dd") + "\");";
-            connection.ExecuteNonQuery(query1);
+            using (var db = new AppDB())
+            {
 
-            connection.Finish();
+                db.Comds.Add(new Comd
+                {
+                    Date = DateTime.Today.ToString("yyyy-MM-dd"),
+                    listeArticles = command,
+                    Total = float.Parse(SommeTotal.Text)
+                });
+                db.SaveChanges();
+            }
+
             Close(true);
         }
 
@@ -144,7 +135,7 @@ namespace Gestion_des_produits.Pages
                 double sommeTotal = 0;
                 foreach (AfficheCommand cmd in AfficheCommandListe)
                 {
-                    sommeTotal += double.Parse(cmd.Total);
+                    sommeTotal += cmd.Total;
                 }
                 SommeTotal.Text = sommeTotal.ToString("0.##");
             }
@@ -158,7 +149,7 @@ namespace Gestion_des_produits.Pages
                 AfficheCommandListe.Remove(item);
                 somme = double.Parse(SommeTotal.Text);
 
-                somme -= double.Parse(item.Total);
+                somme -= item.Total;
                 SommeTotal.Text = somme.ToString("0.##");
             }
         }
