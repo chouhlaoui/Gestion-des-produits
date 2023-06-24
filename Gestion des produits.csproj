@@ -32,10 +32,12 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\supermarche.png" color="Orange">
+		  <foregroundScale>0.65</foregroundScale>
+		</MauiSplashScreen>
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -49,9 +51,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\AppIcon\supermarche.png" />
 	  <None Remove="Resources\Images\commande.png" />
 	  <None Remove="Resources\Images\panier.png" />
 	  <None Remove="Resources\Images\produits.png" />
+	  <None Remove="Resources\Splash\supermarche.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiIcon Include="Resources\AppIcon\supermarche.png" color="White" foregroundScale="0.65" />
 	</ItemGroup>
 
 	<ItemGroup>
