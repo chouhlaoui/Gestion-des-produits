@@ -25,7 +25,7 @@ public partial class ModfPopup : Popup
         {
             using (var dbContext = new AppDB())
             {
-                Produit updateProd = dbContext.Produits.FirstOrDefault(p => p.Code == 1);
+                Produit updateProd = dbContext.Produits.FirstOrDefault(p => p.Code == code);
                 if (updateProd != null)
                 {
                     if (nommod.Text != null)
